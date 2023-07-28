@@ -1,0 +1,32 @@
+/* Created a table and inserted  15 rows of data */
+CREATE TABLE store (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, quantity INTEGER, price REAL);
+INSERT INTO store VALUES (1, "long dress", 20, 15.99);
+INSERT INTO store VALUES (2,"long jeans", 5, 25.89);
+INSERT INTO store VALUES (3, "jacket", 2, 45.97);
+INSERT INTO store VALUES (4,"top", 12, 12.00);
+INSERT INTO store VALUES (5,"bikini", 4, 25.70);
+INSERT INTO store VALUES (6,"sandal", 7, 5.97);
+INSERT INTO store VALUES (7, "crop top", 6, 12.99);
+INSERT INTO store VALUES (8,"short dress", 5, 25.89);
+INSERT INTO store VALUES (9, "jean shorts", 3, 22.56);
+INSERT INTO store VALUES (10,"sweater", 1, 45.00);
+INSERT INTO store VALUES (11,"romper", 4, 27.90);
+INSERT INTO store VALUES (12,"earring", 7, 7.97);
+INSERT INTO store VALUES (13,"sneaker", 9, 35.00);
+INSERT INTO store VALUES (14,"chain", 1, 17.50);
+INSERT INTO store VALUES (15,"ring", 3, 19.99);
+
+/* Lists the items from lowest price to highest */
+SELECT * FROM store ORDER BY price ASC ;
+ 
+/* The Average price of items in the store */ 
+SELECT AVG(price)"Average price" FROM store; 
+
+/* The lowest priced item in the store */ 
+SELECT item, MIN(price) cheapest FROM store; 
+
+/* The highest priced item in the store */ 
+SELECT item, MAX(price) "most expensive" FROM store; 
+
+/* What items need to be reordered (qty of 2 or less) */
+SELECT item, quantity FROM store Where quantity <= 2;
