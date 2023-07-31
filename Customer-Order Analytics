@@ -1,0 +1,40 @@
+/* 1 How many orders were placed in January? */
+SELECT COUNT(*) AS 'TOTAL JAN SALES'
+FROM BIT_DB.JanSales 
+WHERE BIT_DB.JanSales.orderID IS NOT NULL 
+AND BIT_DB.JanSales.orderID <> '' 
+AND LENGTH(BIT_DB.JanSales.orderID) = 6;
+
+/* 2 How many of those orders were for an iPhone? */
+SELECT BIT_DB.JanSales.Product, COUNT(BIT_DB.JanSales.Product) AS 'Iphone Sales'
+FROM BIT_DB.JanSales 
+WHERE BIT_DB.JanSales.Product = 'iPhone';
+
+/* 3 Select the customer account numbers for all the orders that were placed in February.*/
+SELECT BIT_DB.customers.acctnum 
+FROM BIT_DB.customers 
+JOIN BIT_DB.FebSales ON BIT_DB.customers.order_id = BIT_DB.FebSales.orderID;
+
+/* 4 Which product was the cheapest one sold in January, and what was the price?*/
+SELECT  BIT_DB.JanSales.Product, BIT_DB.JanSales.Price 
+FROM BIT_DB.JanSales 
+ORDER BY BIT_DB.JanSales.Price LIMIT 1;
+
+/* 5 What is the total revenue for each product sold in January? */
+SELECT BIT_DB.JanSales.Product, BIT_DB.JanSales.Quantity * BIT_DB.JanSales.Price AS 'TOTAL REVENUE'
+FROM BIT_DB.JanSales 
+WHERE BIT_DB.JanSales.Product <> '' 
+AND BIT_DB.JanSales.Quantity >= 1 
+GROUP BY BIT_DB.JanSales.Product;
+
+/* 6 Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue? */
+SELECT BIT_DB.FebSales.Product, SUM(BIT_DB.FebSales.Quantity) AS Qty, BIT_DB.FebSales.Price, BIT_DB.FebSales.Quantity * BIT_DB.FebSales.Price AS Cost
+FROM BIT_DB.FebSales
+WHERE BIT_DB.FebSales.location = '548 Lincoln St, Seattle, WA 98101'
+GROUP BY BIT_DB.FebSales.Product; 
+
+/* 7 How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?*/
+SELECT COUNT(DISTINCT BIT_DB.customers.acctnum)AS '# of customers', AVG(BIT_DB.FebSales.Quantity)*BIT_DB.FebSales.Price AS 'Avg Purchase'
+FROM BIT_DB.FebSales
+LEFT JOIN BIT_DB.customers ON BIT_DB.FebSales.orderID = BIT_DB.customers.order_id
+WHERE BIT_DB.FebSales.Quantity > 2 AND BIT_DB.FebSales.orderID <> 'ORDER ID' AND LENGTH(BIT_DB.FebSales.orderID) = 6;
